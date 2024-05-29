@@ -24,13 +24,18 @@ export default function Login() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      const data = await response.text(); // Read response as text first
+      if (data.trim() === "") {
+        throw new Error("Empty response");
+      }
+      const jsonData = JSON.parse(data); // Parse JSON if response is not empty
+      dispatch({ type: "LOGIN_SUCCESS", payload: jsonData });
     } catch (err) {
       console.error("Login error:", err);
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
+  
 
   return (
     <div className="login">
