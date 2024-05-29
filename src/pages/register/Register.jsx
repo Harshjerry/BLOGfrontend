@@ -1,12 +1,13 @@
 import "./register.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,7 +21,7 @@ export default function Register() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      window.location.replace("/login");
+      navigate("/login");
     } catch (err) {
       console.error("Register error:", err);
       setError(true);

@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { Context } from "../../context/context.js";
 import "./write.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const { user } = useContext(Context);
@@ -8,7 +9,7 @@ export default function Write() {
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
   const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,7 +53,7 @@ export default function Write() {
         throw new Error("Failed to post");
       }
       const postData = await postResponse.json();
-      window.location.replace("/post/" + postData._id);
+      navigate("/post/"+postData._id);
     } catch (err) {
       console.log("Error occurred while posting:", err);
     }

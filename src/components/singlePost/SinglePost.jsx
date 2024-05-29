@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./singlePost.css";
 import { Context } from "../../context/context.js";
-
+import { useNavigate } from "react-router-dom";
 export default function SinglePost() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -12,7 +12,7 @@ export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getPost = async () => {
       try {
@@ -41,7 +41,7 @@ export default function SinglePost() {
         },
         body: JSON.stringify({ username: user.username }),
       });
-      window.location.replace("/");
+      navigate("/");
       console.log("post deleted successfully");
     } catch (err) {
       console.log(err);
