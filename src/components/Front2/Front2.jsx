@@ -1,6 +1,5 @@
 import React from "react";
 import "./Front2.css";
-import SplineViewer from "../../spline";
 import backgroundImage from "../../images/blog2.png";
 import backgroundImage2 from "../../images/blm2.png";
 
