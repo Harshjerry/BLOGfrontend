@@ -1,3 +1,4 @@
+
 import { useContext, useRef } from "react";
 import { Context } from "../../context/context";
 import "./login.css";
@@ -11,7 +12,7 @@ export default function Login() {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch("https://blogbackend-nd5j.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,21 +22,17 @@ export default function Login() {
           password: passwordRef.current.value,
         }),
       });
+  
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Failed to login");
       }
-      const data = await response.text(); // Read response as text first
-      if (data.trim() === "") {
-        throw new Error("Empty response");
-      }
-      const jsonData = JSON.parse(data); // Parse JSON if response is not empty
-      dispatch({ type: "LOGIN_SUCCESS", payload: jsonData });
+  
+      const data = await response.json();
+      dispatch({ type: "LOGIN_SUCCESS", payload: data });
     } catch (err) {
-      console.error("Login error:", err);
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
-  
   
 
   return (
@@ -60,6 +57,7 @@ export default function Login() {
           Login
         </button>
       </form>
+    
     </div>
   );
 }
