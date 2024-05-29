@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { Context } from "../../context/context.js";
 import "./write.css";
-import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const { user } = useContext(Context);
@@ -9,7 +8,7 @@ export default function Write() {
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,32 +27,30 @@ export default function Write() {
       newPost.photo = fileName;
 
       try {
-        const uploadResponse = await fetch("/upload", {
+        await fetch("/upload", {
           method: "POST",
           body: formData,
         });
-        if (!uploadResponse.ok) {
-          throw new Error("Failed to upload image");
-        }
       } catch (err) {
         console.log("Error occurred while uploading:", err);
-        return;
       }
     }
 
     try {
-      const postResponse = await fetch("/posts", {
+      const response = await fetch("/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newPost),
       });
-      if (!postResponse.ok) {
+
+      if (!response.ok) {
         throw new Error("Failed to post");
       }
-      const postData = await postResponse.json();
-      navigate("/post/"+postData._id);
+
+      const data = await response.json();
+      window.location.replace("/post/" + data._id);
     } catch (err) {
       console.log("Error occurred while posting:", err);
     }
@@ -87,19 +84,19 @@ export default function Write() {
           />
         </div>
         <div className="writeFormGroup">
-        <input
-  className="writeInput1"
-  placeholder="Categories (comma- or space-separated)"
-  type="text"
-  onChange={(e) => {
-    setCategories(
-      e.target.value
-        .split(/[,\s]+/) // split by commas or spaces
-        .map((cat) => cat.trim())
-        .filter((cat) => cat !== "") // filter out empty strings
-    );
-  }}
-/>
+          <input
+            className="writeInput1"
+            placeholder="Categories (comma- or space-separated)"
+            type="text"
+            onChange={(e) => {
+              setCategories(
+                e.target.value
+                  .split(/[,\s]+/) // split by commas or spaces
+                  .map((cat) => cat.trim())
+                  .filter((cat) => cat !== "") // filter out empty strings
+              );
+            }}
+          />
         </div>
         <div className="writeFormGroup">
           <textarea
