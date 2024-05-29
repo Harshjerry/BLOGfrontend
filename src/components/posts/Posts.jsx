@@ -12,20 +12,20 @@ export default function Posts({ posts }) {
   return (
     <div className="posts">
       {posts.slice(0, showAllPosts ? posts.length : 6).map((p) => (
-        <Post key={p.id} post={p} />
+        <Post key={p._id} post={p} />
       ))}
       {!showAllPosts && posts.length > 6 && (
         <div className="btnSee">
-        <button onClick={toggleShowAllPosts} className="see-more-btn">
-          See More
-        </button>
+          <button onClick={toggleShowAllPosts} className="see-more-btn">
+            See More
+          </button>
         </div>
       )}
       {showAllPosts && (
-            <div className="btnSee">
-        <button onClick={toggleShowAllPosts} className="see-more-btn">
-          Show Less
-        </button>
+        <div className="btnSee">
+          <button onClick={toggleShowAllPosts} className="see-more-btn">
+            Show Less
+          </button>
         </div>
       )}
     </div>
