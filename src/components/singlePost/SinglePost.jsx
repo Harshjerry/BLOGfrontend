@@ -11,7 +11,7 @@ export default function SinglePost() {
 const [title,setTitle]=useState("");
 const [desc,setDesc]=useState("");
 const [updateMode, setUpdateMode]=useState(false);
-  const PF = "http://localhost:5000/images/";
+const PF = "https://blogbackend-nd5j.onrender.com/images/";
   const {user}=useContext(Context);
   const location = useLocation();
   const path = location.pathname.split("/")[2];

@@ -1,5 +1,5 @@
 import React from "react";
-import {  Routes, Route, useLocation } from "react-router-dom";
+import {  Routes, Route} from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "./context/context.js";
 import Topbar from "./components/topbar/Topbar";
@@ -13,7 +13,6 @@ import "./app.css";
 
 function App() {
   const { user } = useContext(Context);
-  const location = useLocation();
 
   return (
     <>
