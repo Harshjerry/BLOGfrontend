@@ -16,14 +16,14 @@ export default function Homepage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`/posts${search}`);
+        const response = await fetch(`https://blogbackend-nd5j.onrender.com/api/posts${search}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setPosts(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching posts:", error);
       }
     };
     fetchPosts();

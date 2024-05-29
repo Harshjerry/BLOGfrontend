@@ -8,7 +8,7 @@ const CategoryBar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/categories");
+        const response = await fetch("https://blogbackend-nd5j.onrender.com/api/categories");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
