@@ -1,0 +1,14 @@
+.home {
+  display:flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+margin-left: 50px;
+}
+
+@media (max-width: 768px) {
+  /* Styles for .home class on mobile devices */
+  .home {
+  margin-left: 0px;
+  }
+}

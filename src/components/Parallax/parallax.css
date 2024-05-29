@@ -1,0 +1,49 @@
+.container {
+  height: 120vh;
+  width: 100vw;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #020617;
+  overflow: hidden;
+}
+
+.mountain {
+  height: 120vh;
+  width: 100vw;
+  background-image: url('../../images/final.png');
+  object-fit: cover;
+  position: absolute;
+  z-index: 2;
+}
+
+.moon {
+  height: 120vh;
+  width: 100vw;
+  background-image: url('../../images/moon.png');
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+}
+.text{
+  position: absolute;
+  z-index: 1;
+  height: 50vh;
+  width: 50vw;
+  right:-30vw;
+  top: 44vh;
+  h1{
+    font-size: 3rem;
+    color: white;
+  }
+}
+
+
+@media (max-width: 767px) {
+
+  .container{
+  display: none;
+  }
+
+}
