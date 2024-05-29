@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useContext, useRef } from "react";
 import { Context } from "../../context/context";
 import "./login.css";
@@ -12,12 +11,23 @@ export default function Login() {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", {
-        username: userRef.current.value,
-        password: passwordRef.current.value,
+      const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userRef.current.value,
+          password: passwordRef.current.value,
+        }),
       });
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      dispatch({ type: "LOGIN_SUCCESS", payload: data });
     } catch (err) {
+      console.error("Login error:", err);
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
@@ -44,7 +54,6 @@ export default function Login() {
           Login
         </button>
       </form>
-    
     </div>
   );
 }

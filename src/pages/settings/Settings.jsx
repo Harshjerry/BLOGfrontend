@@ -1,8 +1,6 @@
 import "./settings.css";
-import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
 import { Context } from "../../context/context";
-import axios from "axios";
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -13,7 +11,6 @@ export default function Settings() {
 
   const { user, dispatch } = useContext(Context);
   const PF = "https://blogbackend-nd5j.onrender.com/images/"
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,17 +28,37 @@ export default function Settings() {
       data.append("file", file);
       updatedUser.profilePic = filename;
       try {
-        await axios.post("/upload", data);
-      } catch (err) {}
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: data,
+        });
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
+      } catch (err) {
+        console.error("Error uploading image:", err);
+        dispatch({ type: "UPDATE_FAILURE" });
+        return; // Stop further execution
+      }
     }
     try {
-      const res = await axios.put("/users/" + user._id, updatedUser);
+      const response = await fetch("/users/" + user._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
       setSuccess(true);
-      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+      dispatch({ type: "UPDATE_SUCCESS", payload: updatedUser });
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
+
   return (
     <div className="settings">
       <div className="settingsWrapper">
@@ -95,7 +112,6 @@ export default function Settings() {
           )}
         </form>
       </div>
-      <Sidebar />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useContext } from "react";
 import { Context } from "../../context/context.js";
 import "./write.css";
@@ -28,15 +27,32 @@ export default function Write() {
       newPost.photo = fileName;
 
       try {
-        await axios.post("/upload", formData);
+        const uploadResponse = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+        if (!uploadResponse.ok) {
+          throw new Error("Failed to upload image");
+        }
       } catch (err) {
         console.log("Error occurred while uploading:", err);
+        return;
       }
     }
 
     try {
-      const res = await axios.post("/posts", newPost);
-      window.location.replace("/post/" + res.data._id);
+      const postResponse = await fetch("/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPost),
+      });
+      if (!postResponse.ok) {
+        throw new Error("Failed to post");
+      }
+      const postData = await postResponse.json();
+      window.location.replace("/post/" + postData._id);
     } catch (err) {
       console.log("Error occurred while posting:", err);
     }
