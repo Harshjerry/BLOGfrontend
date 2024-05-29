@@ -6,17 +6,25 @@ import CategoryBar from "../../components/categoryBar/CategoryBar";
 import Front from "../../components/Front2/Front2";
 import Parallax from "../../components/Parallax/parallax";
 import "./homepage.css";
-import axios from "axios";
 import { useLocation } from "react-router";
 
 
 export default function Homepage() {
   const [posts, setPosts] = useState([]);
-  const {search} = useLocation();
+  const { search } = useLocation();
+
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get("/posts"+ search );
-      setPosts(res.data);
+      try {
+        const response = await fetch(`/posts${search}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchPosts();
   }, [search]);

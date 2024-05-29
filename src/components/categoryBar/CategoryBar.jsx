@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./CategoryBar.css";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
 const CategoryBar = () => {
   const [cats, setCats] = useState([]);
 
   useEffect(() => {
-    const getCat = async () => {
-      const res = await axios.get("/categories");
-      setCats(res.data);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/categories");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCats(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
     };
-    getCat();
+    fetchCategories();
   }, []);
 
   return (
