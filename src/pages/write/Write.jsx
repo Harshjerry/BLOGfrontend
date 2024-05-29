@@ -48,7 +48,7 @@ export default function Write() {
         body: JSON.stringify(newPost),
       });
       const data = await res.json();
-      navigate("/post/" + data._id);
+      navigate(`/post/${data._id}`);
     } catch (err) {
       console.log("Error occurred while posting:", err);
     }
