@@ -16,7 +16,7 @@ export default function Homepage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`https://blogbackend-nd5j.onrender.com/api/posts${search}`);
+        const response = await fetch(`https://blogbaackend-88d959b3d49b.herokuapp.com/api/posts${search}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

@@ -1,27 +1,27 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import "./singlePost.css";
 import { Context } from "../../context/context.js";
+import { publicRequest } from "../../requestMethods.js";
 import { useNavigate } from "react-router-dom";
 
 export default function SinglePost() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
-  const PF = "https://blogbackend-nd5j.onrender.com/images/";
+  const PF = "https://blogbaackend-88d959b3d49b.herokuapp.com/images/";
   const { user } = useContext(Context);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
   const navigate = useNavigate();
-
   useEffect(() => {
     const getPost = async () => {
-      const res = await fetch(`https://blogbackend-nd5j.onrender.com/api/posts/${path}`);
-      const data = await res.json();
-      setPost(data);
-      setTitle(data.title);
-      setDesc(data.desc);
+      const res = await publicRequest.get("/posts/" + path);
+      setPost(res.data);
+      setTitle(res.data.title);
+      setDesc(res.data.desc);
     };
     getPost();
   }, [path]);
@@ -29,33 +29,20 @@ export default function SinglePost() {
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`https://blogbackend-nd5j.onrender.com/api/posts/${path}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: user.username }),
-      });
+      await publicRequest.delete("/posts/" + path, { data: { username: user.username } });
       navigate("/");
-      console.log("post deleted successfully");
+      console.log("Post deleted successfully");
     } catch (err) {
       console.log(err);
     }
   };
-  
-  
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`https://blogbackend-nd5j.onrender.com/api/posts/${path}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: user.username, title, desc }),
-      });
-      setUpdateMode(false);
-      console.log("post updated successfully");
+      await publicRequest.put("/posts/" + path, { username: user.username, title, desc });
+      setUpdateMode(false)
+      console.log("Post updated successfully");
     } catch (err) {
       console.log(err);
     }
@@ -64,16 +51,16 @@ export default function SinglePost() {
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        {post.photo && <img src={PF + post.photo} alt="" className="singlePostImg" />}
+        {post.photo && (
+          <img src={PF + post.photo} alt="" className="singlePostImg" />
+        )}
         {updateMode ? (
           <input
             type="text"
             value={title}
             className="singlePostTitleInput"
             autoFocus
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
+            onChange={(e) => setTitle(e.target.value)}
           />
         ) : (
           <h1 className="singlePostTitle">
@@ -86,7 +73,6 @@ export default function SinglePost() {
             )}
           </h1>
         )}
-
         <div className="singlePostInfo">
           <span>
             Author:
@@ -102,14 +88,12 @@ export default function SinglePost() {
           <textarea
             className="singlePostDescInput"
             value={desc}
-            onChange={(e) => {
-              setDesc(e.target.value);
-            }}
+            onChange={(e) => setDesc(e.target.value)}
           />
         ) : (
           <p className="singlePostDesc">{desc}</p>
         )}
-        {updateMode ? <button className="singlePostButton" onClick={handleUpdate}>Update</button> : null}
+        {updateMode && <button className="singlePostButton" onClick={handleUpdate}>Update</button>}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function Login() {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const response = await fetch("https://blogbackend-nd5j.onrender.com/api/auth/login", {
+      const response = await fetch("https://blogbaackend-88d959b3d49b.herokuapp.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

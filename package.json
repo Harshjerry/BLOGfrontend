@@ -41,7 +41,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://blogbackend-nd5j.onrender.com/api",
+  "proxy": "https://blogbaackend-88d959b3d49b.herokuapp.com/api/",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }

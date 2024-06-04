@@ -10,7 +10,7 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
-  const PF = "https://blogbackend-nd5j.onrender.com/images/"
+  const PF = "https://blogbaackend-88d959b3d49b.herokuapp.com/images/"
 
   const handleSubmit = async (e) => {
     e.preventDefault();

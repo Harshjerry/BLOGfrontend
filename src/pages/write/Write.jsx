@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useState, useContext } from "react";
 import { Context } from "../../context/context.js";
 import "./write.css";
+import { publicRequest } from "../../requestMethods.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const { user } = useContext(Context);
@@ -10,50 +12,37 @@ export default function Write() {
   const [file, setFile] = useState("");
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const baseApiUrl = "https://blogbackend-nd5j.onrender.com/api";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const newPost = {
       username: user.username,
       title,
       desc,
       categories,
     };
-  
+
     if (file) {
       const formData = new FormData();
       const fileName = Date.now() + file.name;
       formData.append("name", fileName);
       formData.append("file", file);
       newPost.photo = fileName;
-  
+
       try {
-        await fetch(`${baseApiUrl}/upload`, {
-          method: "POST",
-          body: formData,
-        });
+        await publicRequest.post("/upload", formData);
       } catch (err) {
         console.log("Error occurred while uploading:", err);
       }
     }
-  
+
     try {
-      const res = await fetch(`${baseApiUrl}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPost),
-      });
-      const data = await res.json();
-      navigate(`/post/${data._id}`);
+      const res = await publicRequest.post("/posts", newPost);
+      navigate(`/post/${res.data._id}`);
     } catch (err) {
       console.log("Error occurred while posting:", err);
     }
   };
-  
 
   return (
     <div className="write">
