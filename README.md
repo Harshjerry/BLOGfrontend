@@ -18,13 +18,14 @@ Designed for **creative writers, developers, and storytellers** who love immersi
 
 ## ✨ Features
 
-- 🎢 **Smooth Parallax Animations** – Stunning depth effects using scroll-based motion libraries.  
-- 📝 **Markdown-Based Blog Writing** – Write and preview blogs in real time.  
-- 🎨 **Responsive & Minimal UI** – Fully responsive layout powered by Tailwind CSS.  
-- ⚡ **Pure React Setup (No Vite)** – Standard `create-react-app` structure for easy configuration.  
-- 🚀 **SEO & Performance Optimized** – Lightweight and fine-tuned for speed.  
-- 🔧 **Customizable Components** – Modular and reusable React components.  
-- 🔒 **Full-Stack Integration** – Connected with a secure backend (Node.js + Express + MongoDB).  
+- 🎢 **Smooth Parallax Animations** – Built using modern scroll-based animation libraries to create immersive depth effects.  
+- 📝 **Markdown-Based Blog Writing** – Write and publish blogs easily with a built-in markdown editor and live preview.  
+- 💅 **Styled Components for UI** – Clean, modular styling with full control over component-level designs.  
+- 💻📱 **Laptop & Mobile Responsive** – Optimized layouts for laptop and mobile screens (not yet adapted for large ultrawide displays due to parallax scaling).  
+- ⚡ **Pure React Setup (No Vite)** – Built using Create React App for a stable and simple workflow.  
+- 🚀 **SEO & Performance Optimized** – Lightweight, smooth performance with fast rendering and minimal load time.  
+- 🔧 **Customizable Components** – Reusable React components designed for flexibility and scalability.
+
 
 ---
 
